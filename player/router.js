@@ -1,6 +1,7 @@
 const express = require('express');
 const Player = require('./model');
 const Team = require('../team/model');
+const City = require('../city/model');
 
 const { Router } = express;
 
@@ -18,14 +19,14 @@ router.post('/player', (req, res, next) => {
 });
 
 router.get('/player/:id', (req, res, next) => {
-  Player.findByPk(req.params.id, { include: [Team] })
+  Player.findByPk(req.params.id, { include: [Team, City] })
     .then(result => res.send(result))
     .catch(error => next(error));
 });
 
 router.put('/player/:id', (req, res, next) => {
   Player.findByPk(req.params.id)
-    .then(team => team.update(req.body))
+    .then(player => player.update(req.body))
     .then(result => res.send(result))
     .catch(error => next(error));
 });
